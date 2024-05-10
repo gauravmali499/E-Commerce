@@ -12,13 +12,30 @@ namespace E_Commerce.Data
         {
             _storedb = storedb;
         }
+
+        public async Task<IReadOnlyList<ProductBrand>> GetProductBrandsAsync()
+        {
+            return await _storedb.productBrands.ToListAsync();
+        }
+
         public async Task<Product> GetProductByIdAsync(int id)
         {
-            return await _storedb.products.FindAsync(id); 
+            return await _storedb.products
+                .Include(p => p.ProductBrand)
+                .Include(p => p.ProductType)
+                .FirstOrDefaultAsync(p => p.Id == id); 
         }
         public async Task<IReadOnlyList<Product>> GetProductsAsync()
         {
-            return await _storedb.products.ToListAsync();
+            return await _storedb.products
+                .Include(p => p.ProductBrand)
+                .Include(p => p.ProductType)
+                .ToListAsync();
+        }
+
+        public async Task<IReadOnlyList<ProductType>> GetProductTypesAsync()
+        {
+            return await _storedb.productTypes.ToListAsync();
         }
     }
 }

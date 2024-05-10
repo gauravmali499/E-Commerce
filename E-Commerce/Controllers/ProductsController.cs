@@ -19,11 +19,23 @@ namespace E_Commerce.Controllers
             _repo = repo;
         }
         // GET: api/<ProductsController>
-        [HttpGet]
+        [HttpGet("products")]
         public async Task<ActionResult<List<Product>>> GetProducts()
         {
             var products = await _repo.GetProductsAsync();
             return Ok(products);
+        }
+        [HttpGet("brands")]
+        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
+        {
+            var brands = await _repo.GetProductBrandsAsync();
+            return Ok(brands);
+        }
+        [HttpGet("types")]
+        public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductTypes()
+        {
+            var types = await _repo.GetProductTypesAsync();
+            return Ok(types);
         }
 
         // GET api/<ProductsController>/5
